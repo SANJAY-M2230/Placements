@@ -1,0 +1,32 @@
+def longest_palindromic_subsequence(s):
+    n = len(s)
+    if n == 0:
+        return 0
+
+    # dp[i][j] = length of LPS in s[i..j]
+    dp = [[0] * n for _ in range(n)]
+
+    for i in range(n - 1, -1, -1):
+        dp[i][i] = 1  # single chars are palindromes of length 1
+        for j in range(i + 1, n):
+            if s[i] == s[j]:
+                dp[i][j] = 2 + (dp[i + 1][j - 1] if j - i > 1 else 0)
+            else:
+                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])
+
+    return dp[0][n - 1]
+    pass
+
+
+def main():
+    import sys
+    input = sys.stdin.read
+    s = input().strip()  # Read the single line input string
+
+    # Call user logic function and print the output
+    result = longest_palindromic_subsequence(s)
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
